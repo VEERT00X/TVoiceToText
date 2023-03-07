@@ -1,0 +1,6 @@
+keyboard
+pyaudio
+whisper
+wave
+colorama
+googletrans==4.0.0-rc1
