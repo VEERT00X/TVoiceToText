@@ -15,7 +15,7 @@ TVoiceToText is a Python script that allows you to transcribe speech in real-tim
 
 You can install all the required packages using the requirements.txt file included in this repository. To install the packages, run:
 
-```python
+```bash
 pip install -r requirements.txt
 ```
 
