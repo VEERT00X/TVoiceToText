@@ -13,7 +13,7 @@ do_delete = True
 do_translate = True
 destination_language = 'ja'
 
-def transcribe_audio(audio_file_path, do_delete=False, model_path="tiny", do_translate=False, destination_language="en"):
+def transcribe_audio(audio_file_path, do_delete=False, model_path="tiny", do_translate=True, destination_language="en"):
     model = whisper.load_model(model_path)
     audio = whisper.load_audio(audio_file_path)
     audio = whisper.pad_or_trim(audio)
@@ -62,9 +62,16 @@ def record_audio(do_delete=False):
     stream.close()
     audio.terminate()
 
+    waveFile = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
+    waveFile.setnchannels(CHANNELS)
+    waveFile.setsampwidth(audio.get_sample_size(FORMAT))
+    waveFile.setframerate(RATE)
+    waveFile.writeframes(b''.join(frames))
+    waveFile.close()
+
     threading.Thread(target=transcribe_audio, args=(WAVE_OUTPUT_FILENAME, do_delete, "tiny", do_translate, destination_language)).start()
 
 while True:
     print(Style.DIM + f"Press '{press_button}' key to start recording audio...")
     keyboard.wait(press_button, suppress=True)
-    record_audio(do_delete)
+    record_audio(do_delete=do_delete)
